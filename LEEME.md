@@ -277,35 +277,34 @@ function isClientActive(client) {
 ```
 **[⬆ Volver al inició](#tabla-de-contenido)**
 
-### Function names should say what they do
+### Los nombres de las funciones deben decir lo que hacen
 
 **Mal hecho:**
 ```javascript
-function addToDate(date, month) {
+function añadirFecha(fecha, month) {
   // ...
 }
 
-const date = new Date();
+const fecha = new Date();
 
 // It's hard to to tell from the function name what is added
-addToDate(date, 1);
+añadirFecha(fecha, 1);
 ```
 
 **Bien hecho:**
 ```javascript
-function addMonthToDate(month, date) {
+function añadirMesFecha(mes, fecha) {
   // ...
 }
 
-const date = new Date();
-addMonthToDate(1, date);
+const fecha = new Date();
+añadirMesFecha(1, fecha);
 ```
 **[⬆ Volver al inició](#tabla-de-contenido)**
 
-### Functions should only be one level of abstraction
-When you have more than one level of abstraction your function is usually
-doing too much. Splitting up functions leads to reusability and easier
-testing.
+### Las funciones deben ser sólo un nivel de abstracción
+Cuando tienes más de un nivel de abstracción, tu función suele estar haciendo 
+demasiado. La división de funciones conduce a la reutilización y pruebas más fáciles.
 
 **Mal hecho:**
 ```javascript
@@ -324,11 +323,11 @@ function parseBetterJSAlternative(code) {
 
   const ast = [];
   tokens.forEach((token) => {
-    // lex...
+    // ...
   });
 
   ast.forEach((node) => {
-    // parse...
+    // ...
   });
 }
 ```
@@ -370,27 +369,25 @@ function parseBetterJSAlternative(code) {
 ```
 **[⬆ Volver al inició](#tabla-de-contenido)**
 
-### Remove duplicate code
-Do your absolute best to avoid duplicate code. Duplicate code is bad because it
-means that there's more than one place to alter something if you need to change
-some logic.
+### Eliminar código duplicado
+Haga lo mejor posible para evitar el código duplicado. El código duplicado 
+es malo porque significa que hay más de un lugar para alterar algo si 
+necesitas cambiar alguna lógica.
 
-Imagine if you run a restaurant and you keep track of your inventory: all your
-tomatoes, onions, garlic, spices, etc. If you have multiple lists that
-you keep this on, then all have to be updated when you serve a dish with
-tomatoes in them. If you only have one list, there's only one place to update!
+Imagínese si dirige un restaurante y realiza un seguimiento de su inventario: 
+todos sus tomates, cebollas, ajo, especias, etc. Si tiene varias listas que mantener esto,
+ entonces tienen que actualizarlos todos cuando se sirve un plato con tomates en ellos. 
+ Si sólo tiene una lista, sólo hay un lugar para actualizar!
 
-Oftentimes you have duplicate code because you have two or more slightly
-different things, that share a lot in common, but their differences force you
-to have two or more separate functions that do much of the same things. Removing
-duplicate code means creating an abstraction that can handle this set of
-different things with just one function/module/class.
+A menudo tienes código duplicado porque tienes dos o más cosas ligeramente diferentes, que 
+comparten mucho en común, pero sus diferencias te obligan a tener dos o más funciones separadas 
+que hacen muchas de las mismas cosas. Eliminar código duplicado significa crear una abstracción 
+que puede manejar este conjunto de cosas diferentes con sólo una función/módulo/clase.
 
-Getting the abstraction right is critical, that's why you should follow the
-SOLID principles laid out in the *Classes* section. Bad abstractions can be
-worse than duplicate code, so be careful! Having said this, if you can make
-a good abstraction, do it! Don't repeat yourself, otherwise you'll find yourself
-updating multiple places anytime you want to change one thing.
+Conseguir una correcta abstracción es crítico, eso es porqué usted debe seguir los principios SOLID 
+establecidos en la sección *Classes*. Las malas abstracciones pueden ser peores que el código duplicado,
+ así que ten cuidado! Habiendo dicho esto, si usted puede hacer una buena abstracción, hazlo! No te repitas,
+  de lo contrario te encontrarás actualizando varios lugares cada vez que quieras cambiar una cosa.
 
 **Mal hecho:**
 ```javascript
@@ -450,7 +447,7 @@ function showEmployeeList(employees) {
 ```
 **[⬆ Volver al inició](#tabla-de-contenido)**
 
-### Set default objects with Object.assign
+### Establecer objetos predeterminados con Object.assign
 
 **Mal hecho:**
 ```javascript
@@ -475,7 +472,7 @@ createMenu(menuConfig);
 ```javascript
 const menuConfig = {
   title: 'Order',
-  // User did not include 'body' key
+  // El usuario no incluyó la clave "cuerpo"
   buttonText: 'Send',
   cancellable: true
 };
@@ -488,7 +485,7 @@ function createMenu(config) {
     cancellable: true
   }, config);
 
-  // config now equals: {title: "Order", body: "Bar", buttonText: "Send", cancellable: true}
+  // config ahora es igual: {title: "Order", body: "Bar", buttonText: "Send", cancellable: true}
   // ...
 }
 
@@ -497,8 +494,10 @@ createMenu(menuConfig);
 **[⬆ Volver al inició](#tabla-de-contenido)**
 
 
-### Don't use flags as function parameters
-Flags tell your user that this function does more than one thing. Functions should do one thing. Split out your functions if they are following different code paths based on a boolean.
+### No utilice indicadores como parámetros de función
+Los indicadores indican a su usuario que esta función hace más de una cosa. Las funciones 
+deben hacer una cosa. Divida sus funciones si están siguiendo diferentes rutas de código 
+basadas en un booleano.
 
 **Mal hecho:**
 ```javascript
@@ -524,25 +523,23 @@ function createTempFile(name) {
 **[⬆ Volver al inició](#tabla-de-contenido)**
 
 ### Avoid Side Effects (part 1)
-A function produces a side effect if it does anything other than take a value in
-and return another value or values. A side effect could be writing to a file,
-modifying some global variable, or accidentally wiring all your money to a
-stranger.
+Una función produce un efecto secundario si hace algo más que tomar un valor y devolver otro 
+valor o valores. Un efecto secundario podría ser la escritura en un archivo, la modificación 
+de alguna variable global.
 
-Now, you do need to have side effects in a program on occasion. Like the previous
-example, you might need to write to a file. What you want to do is to
-centralize where you are doing this. Don't have several functions and classes
-that write to a particular file. Have one service that does it. One and only one.
+Ahora, usted necesita tener efectos secundarios en un programa de vez en cuando. Al igual que en el ejemplo anterior,
+es posible que necesite escribir en un archivo. Lo que usted quiere hacer es centralizar donde usted está haciendo esto.
+ No tiene varias funciones y clases que escriben en un archivo en particular.
+ Tener un servicio que lo hace. Uno y solo uno.
 
-The main point is to avoid common pitfalls like sharing state between objects
-without any structure, using mutable data types that can be written to by anything,
-and not centralizing where your side effects occur. If you can do this, you will
-be happier than the vast majority of other programmers.
+El punto principal es evitar las trampas comunes como compartir el estado entre los objetos sin ninguna estructura, 
+usando tipos de datos mutables que pueden ser escritos por cualquier cosa, y no centralizando donde ocurren 
+sus efectos secundarios. Si usted puede hacer esto, usted será más feliz que la gran mayoría de otros programadores.
 
 **Mal hecho:**
 ```javascript
-// Global variable referenced by following function.
-// If we had another function that used this name, now it'd be an array and it could break it.
+// Variable global referenciada por la siguiente función.
+// Si tuviéramos otra función que usara este nombre, ahora sería una matriz y podría romperla.
 let name = 'Ryan McDermott';
 
 function splitIntoFirstAndLastName() {
