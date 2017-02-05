@@ -1,6 +1,6 @@
 # Código limpio Javascript
 
-## Tabla de conteindo
+## Tabla de contenido
   1. [Introducción](#introduccion)
   2. [Variables](#variables)
   3. [Funciones](#funciones)
@@ -33,3 +33,163 @@ trozo de código que comienza como un primer borrador, es como la arcilla mojada
 formada en su forma final. Finalmente, pulimos las imperfecciones cuando la revisamos 
 con nuestros compañeros. No te autocastigues por los primeros borradores que deberas de mejorar.
 ¡Mejorar el código en su lugar!
+
+## **Variables**
+### Utilizar nombres de variables significativos y pronunciables
+
+**Mal hecho:**
+```javascript
+const yyyymmdstr = moment().format('YYYY/MM/DD');
+```
+
+**Bien hecho:**
+```javascript
+const currentDate = moment().format('YYYY/MM/DD');
+```
+**[⬆ Volver al inició](#tabla-de-contenido)**
+
+### Utilizar el mismo vacabulario para el mismo tipo de variable
+
+**Mal hecho:**
+```javascript
+getUserInfo();
+getClientData();
+getCustomerRecord();
+```
+
+**Bien hecho:**
+```javascript
+getUser();
+```
+**[⬆ Volver al inició](#tabla-de-contenido)**
+
+### Utilizar nombre que se pueden buscar 
+Leeremos más código de lo que escribiremos. Es importante que el código que vamos 
+a escribir se legible y entendible.
+Por *no* nombrar variables que terminan siendo significativas para entender 
+nuestro programa, lastimamos a nuestros lectores.
+Haz que tus nombres d variables se pueden entender. Herramientas como 
+[buddy.js](https://github.com/danielstjules/buddy.js) y
+[ESLint](https://github.com/eslint/eslint/blob/660e0918933e6e7fede26bc675a0763a6b357c94/docs/rules/no-magic-numbers.md)
+pueden ayudarte a identificar constantes sin nombres.
+
+**Mal hecho:**
+```javascript
+// ¿Qué quiere decir 86400000?
+setTimeout(blastOff, 86400000);
+
+```
+
+**Bien hecho:**
+```javascript
+// Declara como globales `const` en mayusculas.
+const MILISEGUNDOS_EN_UN_DIA = 86400000;
+
+setTimeout(blastOff, MILISEGUNDOS_EN_UN_DIA);
+
+```
+**[⬆ Volver al inició](#tabla-de-contenido)**
+
+### Usar variables explicativas
+**Mal hecho:**
+```javascript
+const direccion = 'One Infinite Loop, Cupertino 95014';
+const codigoZipCiudadRegex = /^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/;
+saveCityZipCode(direccion.match(codigoZipCiudadRegex)[1], direccion.match(codigoZipCiudadRegex)[2]);
+```
+
+**Bien hecho:**
+```javascript
+const direccion = 'One Infinite Loop, Cupertino 95014';
+const codigoZipCiudadRegex = /^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/;
+const [, city, zipCode] = direccion.match(codigoZipCiudadRegex) || [];
+saveCityZipCode(city, zipCode);
+```
+**[⬆ Volver al inició](#tabla-de-contenido)**
+
+### Evite la asignación mental
+Explicito es mejor que implícito.
+
+**Mal hecho:**
+```javascript
+const ciudedes = ['Austin', 'New York', 'San Francisco'];
+ciudedes.forEach((c) => {
+  hacerAlgo();
+  hacerAlgoOtraVez();
+  // ...
+  // ...
+  // ...
+  // Espera, ¿qué es `c`?
+  dispatch(c);
+});
+```
+
+**Bien hecho:**
+```javascript
+const ciudedes = ['Austin', 'New York', 'San Francisco'];
+ciudedes.forEach((ciudad) => {
+  hacerAlgo();
+  hacerAlgoOtraVez();
+  // ...
+  // ...
+  // ...
+  dispatch(ciudad);
+});
+```
+**[⬆ Volver al inició](#tabla-de-contenido)**
+
+### No agregue contexto innecesario
+Si su nombre de clase/objeto le dice algo, no lo repita en su
+nombre de la variable.
+
+**Mal hecho:**
+```javascript
+const Coche = {
+  fabricanteCoche: 'Honda',
+  modeloCoche: 'Accord',
+  colorCoche: 'Azul'
+};
+
+function pintarCoche(coche) {
+  coche.colorCoche = 'Rojo';
+}
+```
+
+**Bien hecho:**
+```javascript
+const Coche = {
+  fabricante: 'Honda',
+  modelo: 'Accord',
+  color: 'Azul'
+};
+
+function pintarCoche(coche) {
+  coche.color = 'rojo';
+}
+```
+**[⬆ Volver al inició](#tabla-de-contenido)**
+
+### Usar argumentos predeterminados en lugar de cortocircuitos o condicionales
+Los argumentos por defecto son a menudo más limpios que los cortocircuitos. Tenga en cuenta 
+que si los utiliza, su función sólo proporcionará valores predeterminados para los argumentos 
+`undefined`. Otros valores falsos como `''`, `""`, `false`, `null`, `0`, y `NaN` no serán 
+reemplazados por un valor predeterminado.
+
+
+**Mal hecho:**
+```javascript
+function crearMicrobrewery(nombre) {
+  const breweryNombre = nombre || 'Hipster Brew Co.';
+  // ...
+}
+
+```
+
+**Bien hecho:**
+```javascript
+function crearMicrobrewery(breweryNombre = 'Hipster Brew Co.') {
+  // ...
+}
+
+```
+**[⬆ Volver al inició](#tabla-de-contenido)**
