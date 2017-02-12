@@ -522,7 +522,7 @@ function createTempFile(name) {
 ```
 **[⬆ Volver al inició](#tabla-de-contenido)**
 
-### Avoid Side Effects (part 1)
+### Evitar efectos secundarios (parte 1)
 Una función produce un efecto secundario si hace algo más que tomar un valor y devolver otro 
 valor o valores. Un efecto secundario podría ser la escritura en un archivo, la modificación 
 de alguna variable global.
@@ -565,38 +565,39 @@ console.log(newName); // ['Ryan', 'McDermott'];
 ```
 **[⬆ Volver al inició](#tabla-de-contenido)**
 
-### Avoid Side Effects (part 2)
-In JavaScript, primitives are passed by value and objects/arrays are passed by
-reference. In the case of objects and arrays, if our function makes a change
-in a shopping cart array, for example, by adding an item to purchase,
-then any other function that uses that `cart` array will be affected by this
-addition. That may be great, however it can be bad too. Let's imagine a bad
-situation:
+### Evitar efectos secundarios (parte 2)
 
-The user clicks the "Purchase", button which calls a `purchase` function that
-spawns a network request and sends the `cart` array to the server. Because
-of a bad network connection, the `purchase` function has to keep retrying the
-request. Now, what if in the meantime the user accidentally clicks "Add to Cart"
-button on an item they don't actually want before the network request begins?
-If that happens and the network request begins, then that purchase function
-will send the accidentally added item because it has a reference to a shopping
-cart array that the `addItemToCart` function modified by adding an unwanted
-item.
+En Javascript, los primitivos son pasado por valor y los objetos/arrays son 
+pasado por referencia. En el caso de los objetos y los arrays, si nuestra 
+función crear un cambio en un array del carrito de la compra, por ejemplo,
+añadir un ítem para comprar, entonces ninguna función que use este array `cart`
+debería ser afectado por este cambio. Eso puede ser genial, sin embargo también 
+eso puede ser malo. Vamos a imaginar una situación errónea:
 
-A great solution would be for the `addItemToCart` to always clone the `cart`,
-edit it, and return the clone. This ensures that no other functions that are
-holding onto a reference of the shopping cart will be affected by any changes.
+El usuario presiona el "Comprar", el botón al cual llama a la función `purchase`
+que genera una petición de red y envía el array `cart` al servidor. Porque debido
+una mala conexión, la función `purchase` tiene que reintentar la petición. Ahora,
+¿Qué pasa si entretanto el usuario hace clic de forma accidental en el botón 
+"Añadir al carro" de un elemento que en realidad no quieren antes de que 
+comience la solicitud de red? Si esto pasa y la petición de conexión empieza, 
+cuando esta función de compra envié por accidente el ítem porque tenia una 
+referencia en el array del carrito que la función `addItemToCart` modifico este 
+añadió un elemento que no queremos.
 
-Two caveats to mention to this approach:
-  1. There might be cases where you actually want to modify the input object,
-but when you adopt this programming practice you will find that those case
-are pretty rare. Most things can be refactored to have no side effects!
+Una buena solución seria que la función `addITemToCart` siempre hiciera un copia de 
+`cart`, editarlo, y devolver el clon. Esto garantiza que ninguna otra función que 
+se mantenga en una referencia del carrito de compras se verá afectada por cualquier cambio.
 
-  2. Cloning big objects can be very expensive in terms of performance. Luckily,
-this isn't a big issue in practice because there are
-[great libraries](https://facebook.github.io/immutable-js/) that allow
-this kind of programming approach to be fast and not as memory intensive as
-it would be for you to manually clone objects and arrays.
+
+Dos advertencias a mencionar a este enfoque:
+  1. Puede haber casos en los que realmente desea modificar el objeto de entrada, pero 
+  cuando adopta esta práctica de programación encontrará que esos casos son bastante raros. 
+  ¡La mayoría de las cosas pueden ser refactorizadas para no tener efectos secundarios!
+
+  2. Clonar objetos grandes puedes ser costosos en terminos de performance. Por suerte,
+  esto no es un gran problema en la practica porque hay [buenas librerias](https://facebook.github.io/immutable-js/)
+  que permiten que este tipo de enfoque de programación sea rápido y no use tanta memoria como si lo hicieramos 
+  nosotros manualmente.
 
 **Mal hecho:**
 ```javascript
